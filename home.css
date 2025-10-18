@@ -47,10 +47,10 @@ h2 {
 }
 
 .check-btn {
-    background-color: #4caf50;
+    background-color: #81bbdd;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 100%;
     padding: 8px 10px;
     cursor: pointer;
     font-size: 16px;
