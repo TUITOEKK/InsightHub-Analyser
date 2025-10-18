@@ -2,10 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Analyse Your Data</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="container">
+        <h2>Analyse Your Data</h2>
+
+        <div class="row">
+            <input type="text" placeholder="Paste Link" class="input-link">
+            <select class="status">
+                <option>Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+            </select>
+            <button class="check-btn">✔</button>
+        </div>
+
+        <div class="row">
+            <label class="filter-label">Filter</label>
+            <input type="text" placeholder="Detail" class="filter-input">
+            <input type="text" placeholder="..." class="filter-input">
+            <input type="text" placeholder="..." class="filter-input">
+            <button class="add-btn">+</button>
+        </div>
+
+        <button class="generate-btn">Generate</button>
+
+        <div class="results">
+            <p>Results will appear here...</p>
+        </div>
+
+        <button class="graph-btn">Graph</button>
+    </div>
 </body>
 </html>
