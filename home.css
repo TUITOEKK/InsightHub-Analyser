@@ -113,3 +113,9 @@ h2 {
     margin-top: 10px;
     cursor: pointer;
 }
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 150px; /* adjust width as needed */
+    margin-right: 10px;
+}
