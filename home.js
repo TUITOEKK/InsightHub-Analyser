@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dropdownMenu = null;
 
     const options = ['Most Recommended', 'High Comments', 'Date Manual Set'];
+    let dateButton = null;
 
     // Handle Add (+) click
     addBtn.addEventListener('click', (e) => {
@@ -88,6 +89,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (option === 'Date Manual Set') {
             dateRange.classList.remove('hidden');
+
+            // If date button not yet created
+            if (!dateButton) {
+                dateButton = document.createElement('button');
+                dateButton.className = 'filter-btn active-filter';
+                dateButton.textContent = 'Date';
+                filterGroup.insertBefore(dateButton, addBtn);
+
+                dateButton.addEventListener('click', () => {
+                    setActiveFilter(dateButton);
+                });
+            } else {
+                setActiveFilter(dateButton);
+            }
+
         } else {
             dateRange.classList.add('hidden');
             const exists = Array.from(document.querySelectorAll('.filter-btn'))
@@ -97,12 +113,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 newBtn.className = 'filter-btn';
                 newBtn.textContent = option;
                 newBtn.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
-                    newBtn.classList.add('active-filter');
+                    setActiveFilter(newBtn);
                 });
                 filterGroup.insertBefore(newBtn, addBtn);
             }
+            const newBtn = Array.from(document.querySelectorAll('.filter-btn'))
+                .find(btn => btn.textContent === option);
+            setActiveFilter(newBtn);
         }
+    }
+
+    // Set active blue button
+    function setActiveFilter(button) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+        button.classList.add('active-filter');
     }
 
     // Close dropdown if clicked outside
@@ -113,18 +137,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Store last date range selection
-    fromDate.addEventListener('change', saveDateRange);
-    toDate.addEventListener('change', saveDateRange);
+    // When date selected, update button text
+    fromDate.addEventListener('change', updateDateButton);
+    toDate.addEventListener('change', updateDateButton);
 
-    function saveDateRange() {
-        localStorage.setItem('fromDate', fromDate.value);
-        localStorage.setItem('toDate', toDate.value);
+    function updateDateButton() {
+        if (fromDate.value && toDate.value) {
+            const rangeText = formatDate(fromDate.value) + " - " + formatDate(toDate.value);
+            if (dateButton) {
+                dateButton.textContent = rangeText;
+            }
+            setActiveFilter(dateButton);
+        }
     }
 
-    // Restore date range if available
-    const savedFrom = localStorage.getItem('fromDate');
-    const savedTo = localStorage.getItem('toDate');
-    if (savedFrom) fromDate.value = savedFrom;
-    if (savedTo) toDate.value = savedTo;
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
 });
