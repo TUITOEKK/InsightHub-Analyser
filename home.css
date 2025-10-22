@@ -5,6 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
 .container {
@@ -13,6 +14,7 @@ body {
     border-radius: 10px;
     padding: 30px;
     width: 70%;
+    max-width: 800px;
     box-shadow: 0 4px 10px rgba(139, 16, 16, 0.1);
 }
 
@@ -28,6 +30,7 @@ h2 {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
+    flex-wrap: wrap;
 }
 
 .input-link {
@@ -44,13 +47,15 @@ h2 {
     border: 1px solid #888;
     border-radius: 6px;
     margin-right: 5px;
+    cursor: pointer;
+    background-color: #fafafa;
 }
 
 .check-btn {
     background-color: #81bbdd;
     color: white;
     border: none;
-    border-radius: 100%;
+    border-radius: 50%;
     padding: 8px 10px;
     cursor: pointer;
     font-size: 16px;
@@ -61,13 +66,30 @@ h2 {
     margin-right: 6px;
 }
 
-.filter-input {
-    width: 80px;
-    padding: 6px;
+.filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 12px;
     border: 1px solid #888;
     border-radius: 6px;
-    margin-right: 6px;
-    field-sizing: content;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+.filter-btn:hover {
+    background-color: #e0e0e0;
 }
 
 .add-btn {
@@ -103,22 +125,28 @@ h2 {
     text-align: center;
 }
 
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 .graph-btn {
     background-color: #333;
     color: white;
     border: none;
     border-radius: 6px;
     padding: 8px 12px;
-    float: right;
-    margin-top: 10px;
     cursor: pointer;
 }
-.button-group {
-    display: flex;
-    justify-content: space-between;
-    width: 150px; /* adjust width as needed */
-    margin-right: 10px;
+
+.active-filter {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
 }
+
 .dropdown-menu {
     position: absolute;
     background-color: white;
@@ -143,4 +171,3 @@ h2 {
 .dropdown-item:hover {
     background-color: #f2f2f2;
 }
-

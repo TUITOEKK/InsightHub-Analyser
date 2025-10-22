@@ -15,18 +15,14 @@
             <button class="check-btn" id="checkIcon">?</button>
         </div>
 
-        <div class="row">
+        <div class="row filter-row">
             <label class="filter-label">Filter</label>
-        <button class="filter-input">
-         <option>All</option>
-            </button>
-           <button class="filter-input">
-            <option>Today</option>
-            </button>
-            <button class="filter-input">
-            <option>Yesterday</option>
-            </button>
-            <button class="add-btn">+</button>
+            <div class="filter-group">
+                <button class="filter-btn" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="today">Today</button>
+                <button class="filter-btn" data-filter="yesterday">Yesterday</button>
+                <button class="add-btn">+</button>
+            </div>
         </div>
 
         <button class="generate-btn">Generate</button>
@@ -34,11 +30,13 @@
         <div class="results">
             <p>Results will appear here...</p>
         </div>
-<div class="button-group">
-        <button class="graph-btn">Graph</button>
-        <button class="graph-btn">Analyse</button>
+
+        <div class="button-group">
+            <button class="graph-btn">Graph</button>
+            <button class="graph-btn">Analyse</button>
+        </div>
     </div>
-    </div>
+
     <script src="home.js"></script>
 </body>
 </html>

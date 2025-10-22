@@ -49,7 +49,6 @@ linkInput.addEventListener("paste", function() {
 // Filter Button Section
 // ----------------------
 const filterGroup = document.querySelector('.filter-group');
-const filterButtons = document.querySelectorAll('.filter-btn');
 const addButton = document.querySelector('.add-btn');
 
 // Handle filter selection
@@ -61,8 +60,8 @@ function handleFilterClick(event) {
     console.log('Selected filter:', event.target.textContent);
 }
 
-// Attach click events to existing filters
-filterButtons.forEach(button => {
+// Attach click event to existing filter buttons
+document.querySelectorAll('.filter-btn').forEach(button => {
     button.addEventListener('click', handleFilterClick);
 });
 
@@ -92,7 +91,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// Toggle dropdown when Add button clicked
+// Toggle dropdown on Add button click
 addButton.addEventListener('click', (event) => {
     event.stopPropagation();
     if (dropdown.style.display === 'block') {
@@ -102,15 +101,26 @@ addButton.addEventListener('click', (event) => {
     }
 });
 
-// Handle dropdown item click
+// Add selected item as visible filter button
 dropdown.addEventListener('click', (event) => {
     if (event.target.classList.contains('dropdown-item')) {
-        const newFilter = event.target.textContent;
+        const newFilter = event.target.textContent.trim();
+
+        // Prevent duplicate buttons
+        const exists = Array.from(filterGroup.children).some(btn => btn.textContent.trim() === newFilter);
+        if (exists) {
+            dropdown.style.display = 'none';
+            return;
+        }
+
+        // Create new filter button
         const newBtn = document.createElement('button');
         newBtn.textContent = newFilter;
         newBtn.classList.add('filter-btn');
         newBtn.addEventListener('click', handleFilterClick);
-        filterGroup.appendChild(newBtn);
+
+        // Insert new button before the Add button
+        filterGroup.insertBefore(newBtn, addButton);
         dropdown.style.display = 'none';
     }
 });
