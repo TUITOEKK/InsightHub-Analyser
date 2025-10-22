@@ -1,6 +1,4 @@
-// ----------------------
-// Link Checking Section
-// ----------------------
+// Facebook link validation
 const linkInput = document.getElementById("linkInput");
 const checkIcon = document.getElementById("checkIcon");
 const statusBtn = document.getElementById("statusBtn");
@@ -9,7 +7,7 @@ function checkLink() {
     const link = linkInput.value.trim();
     if (link === "") {
         statusBtn.textContent = "Status";
-        statusBtn.style.backgroundColor = "";
+        statusBtn.style.backgroundColor = "#fafafa";
         checkIcon.textContent = "?";
         checkIcon.style.backgroundColor = "#ccc";
         checkIcon.style.color = "#333";
@@ -45,82 +43,88 @@ linkInput.addEventListener("paste", function() {
     setTimeout(checkLink, 300);
 });
 
-// ----------------------
-// Filter Button Section
-// ----------------------
-const filterGroup = document.querySelector('.filter-group');
-const addButton = document.querySelector('.add-btn');
 
-// Handle filter selection
-function handleFilterClick(event) {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active-filter');
-    });
-    event.target.classList.add('active-filter');
-    console.log('Selected filter:', event.target.textContent);
-}
+// Filter and Add button logic
+document.addEventListener('DOMContentLoaded', () => {
+    const addBtn = document.getElementById('addBtn');
+    const filterGroup = document.querySelector('.filter-group');
+    const dateRange = document.getElementById('dateRange');
+    const fromDate = document.getElementById('fromDate');
+    const toDate = document.getElementById('toDate');
+    let dropdownMenu = null;
 
-// Attach click event to existing filter buttons
-document.querySelectorAll('.filter-btn').forEach(button => {
-    button.addEventListener('click', handleFilterClick);
-});
+    const options = ['Most Recommended', 'High Comments', 'Date Manual Set'];
 
-// Create dropdown for Add button
-const dropdown = document.createElement('div');
-dropdown.classList.add('dropdown-menu');
-dropdown.style.display = 'none';
-dropdown.innerHTML = `
-    <button class="dropdown-item">Most Recommended</button>
-    <button class="dropdown-item">High Comments</button>
-    <button class="dropdown-item">Date Manual Set</button>
-`;
-document.body.appendChild(dropdown);
-
-// Position dropdown under Add button
-function showDropdown() {
-    const rect = addButton.getBoundingClientRect();
-    dropdown.style.left = rect.left + 'px';
-    dropdown.style.top = rect.bottom + 'px';
-    dropdown.style.display = 'block';
-}
-
-// Hide dropdown when clicking outside
-document.addEventListener('click', (event) => {
-    if (!dropdown.contains(event.target) && event.target !== addButton) {
-        dropdown.style.display = 'none';
-    }
-});
-
-// Toggle dropdown on Add button click
-addButton.addEventListener('click', (event) => {
-    event.stopPropagation();
-    if (dropdown.style.display === 'block') {
-        dropdown.style.display = 'none';
-    } else {
-        showDropdown();
-    }
-});
-
-// Add selected item as visible filter button
-dropdown.addEventListener('click', (event) => {
-    if (event.target.classList.contains('dropdown-item')) {
-        const newFilter = event.target.textContent.trim();
-
-        // Prevent duplicate buttons
-        const exists = Array.from(filterGroup.children).some(btn => btn.textContent.trim() === newFilter);
-        if (exists) {
-            dropdown.style.display = 'none';
+    // Handle Add (+) click
+    addBtn.addEventListener('click', (e) => {
+        if (dropdownMenu) {
+            dropdownMenu.remove();
+            dropdownMenu = null;
             return;
         }
 
-        // Create new filter button
-        const newBtn = document.createElement('button');
-        newBtn.textContent = newFilter;
-        newBtn.classList.add('filter-btn');
-        newBtn.addEventListener('click', handleFilterClick);
+        dropdownMenu = document.createElement('div');
+        dropdownMenu.className = 'dropdown-menu';
 
-        // Insert new button before the Add button
-        filterGroup.insertBefore(newBtn, addButton);
-        dropdown.style.display = 'none';
+        options.forEach(option => {
+            const item = document.createElement('button');
+            item.className = 'dropdown-item';
+            item.textContent = option;
+            item.addEventListener('click', () => handleOptionSelect(option));
+            dropdownMenu.appendChild(item);
+        });
+
+        const rect = addBtn.getBoundingClientRect();
+        dropdownMenu.style.position = 'absolute';
+        dropdownMenu.style.top = rect.bottom + 'px';
+        dropdownMenu.style.left = rect.left + 'px';
+        document.body.appendChild(dropdownMenu);
+    });
+
+    // Handle option selection
+    function handleOptionSelect(option) {
+        dropdownMenu.remove();
+        dropdownMenu = null;
+
+        if (option === 'Date Manual Set') {
+            dateRange.classList.remove('hidden');
+        } else {
+            dateRange.classList.add('hidden');
+            const exists = Array.from(document.querySelectorAll('.filter-btn'))
+                .some(btn => btn.textContent === option);
+            if (!exists) {
+                const newBtn = document.createElement('button');
+                newBtn.className = 'filter-btn';
+                newBtn.textContent = option;
+                newBtn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+                    newBtn.classList.add('active-filter');
+                });
+                filterGroup.insertBefore(newBtn, addBtn);
+            }
+        }
     }
+
+    // Close dropdown if clicked outside
+    document.addEventListener('click', (e) => {
+        if (dropdownMenu && !addBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.remove();
+            dropdownMenu = null;
+        }
+    });
+
+    // Store last date range selection
+    fromDate.addEventListener('change', saveDateRange);
+    toDate.addEventListener('change', saveDateRange);
+
+    function saveDateRange() {
+        localStorage.setItem('fromDate', fromDate.value);
+        localStorage.setItem('toDate', toDate.value);
+    }
+
+    // Restore date range if available
+    const savedFrom = localStorage.getItem('fromDate');
+    const savedTo = localStorage.getItem('toDate');
+    if (savedFrom) fromDate.value = savedFrom;
+    if (savedTo) toDate.value = savedTo;
 });

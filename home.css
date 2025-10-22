@@ -171,3 +171,20 @@ h2 {
 .dropdown-item:hover {
     background-color: #f2f2f2;
 }
+
+.date-range {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.date-range input {
+    padding: 6px;
+    border: 1px solid #888;
+    border-radius: 6px;
+}
+
+.hidden {
+    display: none;
+}
