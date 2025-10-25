@@ -43,7 +43,6 @@ linkInput.addEventListener("paste", function() {
     setTimeout(checkLink, 300);
 });
 
-
 // Filter and Add button logic
 document.addEventListener('DOMContentLoaded', () => {
     const addBtn = document.getElementById('addBtn');
@@ -52,9 +51,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const fromDate = document.getElementById('fromDate');
     const toDate = document.getElementById('toDate');
     let dropdownMenu = null;
+    let dateButton = null;
 
     const options = ['Most Recommended', 'High Comments', 'Date Manual Set'];
-    let dateButton = null;
+
+    // Make default filter buttons clickable
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => setActiveFilter(btn));
+    });
+
+    // Restore saved date range if exists
+    const savedFrom = localStorage.getItem('fromDate');
+    const savedTo = localStorage.getItem('toDate');
+    if (savedFrom && savedTo) {
+        fromDate.value = savedFrom;
+        toDate.value = savedTo;
+        showDateButton(savedFrom, savedTo);
+        dateRange.classList.remove('hidden');
+    }
 
     // Handle Add (+) click
     addBtn.addEventListener('click', (e) => {
@@ -89,21 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (option === 'Date Manual Set') {
             dateRange.classList.remove('hidden');
-
-            // If date button not yet created
-            if (!dateButton) {
-                dateButton = document.createElement('button');
-                dateButton.className = 'filter-btn active-filter';
-                dateButton.textContent = 'Date';
-                filterGroup.insertBefore(dateButton, addBtn);
-
-                dateButton.addEventListener('click', () => {
-                    setActiveFilter(dateButton);
-                });
+            if (fromDate.value && toDate.value) {
+                showDateButton(fromDate.value, toDate.value);
             } else {
-                setActiveFilter(dateButton);
+                showDateButton();
             }
-
         } else {
             dateRange.classList.add('hidden');
             const exists = Array.from(document.querySelectorAll('.filter-btn'))
@@ -112,9 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const newBtn = document.createElement('button');
                 newBtn.className = 'filter-btn';
                 newBtn.textContent = option;
-                newBtn.addEventListener('click', () => {
-                    setActiveFilter(newBtn);
-                });
+                newBtn.addEventListener('click', () => setActiveFilter(newBtn));
                 filterGroup.insertBefore(newBtn, addBtn);
             }
             const newBtn = Array.from(document.querySelectorAll('.filter-btn'))
@@ -123,10 +125,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Set active blue button
+    // Create or update date button
+    function showDateButton(from = null, to = null) {
+        if (!dateButton) {
+            dateButton = document.createElement('button');
+            dateButton.className = 'filter-btn active-filter';
+            filterGroup.insertBefore(dateButton, addBtn);
+            dateButton.addEventListener('click', () => setActiveFilter(dateButton));
+        }
+
+        if (from && to) {
+            dateButton.textContent = formatDate(from) + " - " + formatDate(to);
+        } else {
+            dateButton.textContent = "Date";
+        }
+        setActiveFilter(dateButton);
+    }
+
+    // Active filter highlight
     function setActiveFilter(button) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
         button.classList.add('active-filter');
+        console.log("Selected filter:", button.textContent);
     }
 
     // Close dropdown if clicked outside
@@ -137,17 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // When date selected, update button text
+    // When date changes
     fromDate.addEventListener('change', updateDateButton);
     toDate.addEventListener('change', updateDateButton);
 
     function updateDateButton() {
         if (fromDate.value && toDate.value) {
-            const rangeText = formatDate(fromDate.value) + " - " + formatDate(toDate.value);
-            if (dateButton) {
-                dateButton.textContent = rangeText;
-            }
-            setActiveFilter(dateButton);
+            localStorage.setItem('fromDate', fromDate.value);
+            localStorage.setItem('toDate', toDate.value);
+            showDateButton(fromDate.value, toDate.value);
         }
     }
 
