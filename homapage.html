@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyzer Hub</title>
-    <link rel="stylesheet" href="homepage.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyzer Hub</title>
+  <link rel="stylesheet" href="homepage.css">
 </head>
 <body>
 
-    <header>Analyzer Hub</header>
+  <header>Analyzer Hub</header>
 
-    <div class="top-bar">
-<button onclick="window.location.href='home.html'">Facebook</button>
+  <div class="top-bar">
+    <button id="facebookBtn">Facebook</button>
+    <button id="igBtn">IG</button>
+    <button id="twitterBtn">Twitter</button>
+    <button id="tiktokBtn">Tiktok</button>
+  </div>
 
-        <button>IG</button>
-        <button>Twitter</button>
-        <button>Tiktok</button>
-    </div>
+  <div class="content" id="mainContent">
+    <p style="text-align:center; color:#777; padding-top: 200px;">
+      Select a platform to start analyzing...
+    </p>
+  </div>
 
-    <div class="content">
-        <!-- Main content area -->
-    </div>
-
+  <script src="homepage.js"></script>
 </body>
 </html>
