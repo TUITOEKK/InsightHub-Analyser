@@ -1,37 +1,30 @@
+// Get references
 const contentDiv = document.getElementById("mainContent");
 const facebookBtn = document.getElementById("facebookBtn");
 
+// Load Facebook content dynamically
 facebookBtn.addEventListener("click", () => {
   fetch("home.html")
     .then(response => response.text())
     .then(html => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
+      const inner = doc.body.innerHTML;
+      contentDiv.innerHTML = inner;
 
-      // Only grab the <div class="container"> content from home.html
-      const container = doc.querySelector(".container");
-      if (container) {
-        contentDiv.innerHTML = container.outerHTML;
-      } else {
-        contentDiv.innerHTML = "<p style='color:red;'>Container not found in home.html</p>";
-        return;
-      }
+      // Load Facebook page CSS
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "home.css";
+      document.head.appendChild(link);
 
-      // Add home.css if not already loaded
-      if (!document.querySelector('link[href="home.css"]')) {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "home.css";
-        document.head.appendChild(link);
-      }
-
-      // Load home.js for Facebook page behavior
+      // Load Facebook page JS
       const script = document.createElement("script");
       script.src = "home.js";
       document.body.appendChild(script);
     })
     .catch(error => {
-      contentDiv.innerHTML = "<p style='color:red;'>Failed to load Facebook page.</p>";
-      console.error("Error loading Facebook content:", error);
+      contentDiv.innerHTML = "<p style='color:red; text-align:center;'>Failed to load Facebook page.</p>";
+      console.error("Error loading Facebook page:", error);
     });
 });
