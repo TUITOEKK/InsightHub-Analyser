@@ -9,11 +9,11 @@ body {
 }
 
 .container {
-    background-color: white;
-    border: 2px solid #cec5c5;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid #645151;
     border-radius: 10px;
     padding: 30px;
-    width: 70%;
+    width: 80%;
     max-width: 800px;
     box-shadow: 0 4px 10px rgba(139, 16, 16, 0.1);
 }
