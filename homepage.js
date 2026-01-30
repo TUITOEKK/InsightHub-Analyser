@@ -1,30 +1,54 @@
-// Get references
 const contentDiv = document.getElementById("mainContent");
 const facebookBtn = document.getElementById("facebookBtn");
 
-// Load Facebook content dynamically
+let facebookCSSLoaded = false;
+
 facebookBtn.addEventListener("click", () => {
-  fetch("home.html")
-    .then(response => response.text())
+  setActive(facebookBtn);
+
+  fetch("facebookhm.html")
+    .then(res => res.text())
     .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
-      const inner = doc.body.innerHTML;
-      contentDiv.innerHTML = inner;
+      contentDiv.innerHTML = html;
 
-      // Load Facebook page CSS
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = "home.css";
-      document.head.appendChild(link);
+      // Load CSS once
+      if (!facebookCSSLoaded) {
+        loadCSS("facebookhm.css");
+        facebookCSSLoaded = true;
+      }
 
-      // Load Facebook page JS
-      const script = document.createElement("script");
-      script.src = "home.js";
-      document.body.appendChild(script);
+      // ALWAYS reload JS so it binds to new DOM
+      loadJS("facebookhm.js");
     })
-    .catch(error => {
-      contentDiv.innerHTML = "<p style='color:red; text-align:center;'>Failed to load Facebook page.</p>";
-      console.error("Error loading Facebook page:", error);
+    .catch(err => {
+      contentDiv.innerHTML =
+        "<p style='color:red; text-align:center;'>Failed to load Facebook UI.</p>";
+      console.error(err);
     });
 });
+
+function loadCSS(href) {
+  if (!document.querySelector(`link[href="${href}"]`)) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
+  }
+}
+
+function loadJS(src) {
+  // Remove old script if exists
+  const oldScript = document.querySelector(`script[src="${src}"]`);
+  if (oldScript) oldScript.remove();
+
+  const script = document.createElement("script");
+  script.src = src;
+  script.defer = true;
+  document.body.appendChild(script);
+}
+
+function setActive(btn) {
+  document.querySelectorAll(".top-bar button")
+    .forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}

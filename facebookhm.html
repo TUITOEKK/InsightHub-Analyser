@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Analyse Your Data</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="facebookhm.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Analyse Your Data Now</h2>
+
+    <!-- WRAPPER REQUIRED -->
+    <div class="facebook-ui">
+
+        <h2>Analyse Your Facebook Data Now</h2>
 
         <div class="row">
             <input type="text" placeholder="Paste facebook Link" class="input-link" id="linkInput">
@@ -18,7 +21,7 @@
         <div class="row filter-row">
             <label class="filter-label">Filter</label>
             <div class="filter-group">
-                <button class="filter-btn" data-filter="All">All</button>
+                <button class="filter-btn active-filter" data-filter="All">All</button>
                 <button class="filter-btn" data-filter="Today">Today</button>
                 <button class="filter-btn" data-filter="Yesterday">Yesterday</button>
                 <button class="add-btn" id="addBtn">+</button>
@@ -42,8 +45,9 @@
             <button class="graph-btn">Graph</button>
             <button class="graph-btn">Analyse</button>
         </div>
+
     </div>
 
-    <script src="home.js"></script>
+    <script src="facebookhm.js"></script>
 </body>
 </html>

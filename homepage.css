@@ -1,3 +1,4 @@
+/* ===== BASE ===== */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,6 +6,7 @@ body {
     background-color: #fafafa;
 }
 
+/* ===== HEADER ===== */
 header {
     background-color: #fff;
     border-bottom: 2px solid #ccc;
@@ -15,6 +17,7 @@ header {
     color: #222;
 }
 
+/* ===== TOP BAR ===== */
 .top-bar {
     display: flex;
     gap: 30px;
@@ -38,12 +41,77 @@ header {
     border-color: #007bff;
 }
 
+.top-bar button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* ===== MAIN CONTENT BOX ===== */
 .content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 30px;
+}
+
+
+/* ===== DEFAULT PLACEHOLDER TEXT ===== */
+.placeholder {
+    font-size: 18px;
+    color: #777;
+    text-align: center;
+}
+
+/* ===== FACEBOOK UI CARD ===== */
+.fb-card {
     width: 100%;
-    margin: 30px auto;
-    background-color: white;
-    border: 2px solid #ccc;
+    max-width: 760px;
+    background-color: #fff;
+    border: 2px solid #8b5e3c;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* ===== BUTTONS INSIDE FB UI ===== */
+.fb-card button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #f59e0b;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    opacity: 0.9;
+}
+
+/* ===== RESULTS BOX ===== */
+.results {
+    margin-top: 20px;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 160px;
+    color: #555;
+}
+
+/* ===== SINGLE COMMENT ===== */
+.comment {
+    background: #f9fafb;
+    padding: 10px;
     border-radius: 8px;
-    height: 500px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 8px;
 }
